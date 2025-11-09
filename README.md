@@ -8,28 +8,39 @@ It allows you to map pedal switches to control tracks, effects, or any MIDI-mapp
 ## 🚀 Installation & Setup
 
 ### 1. Install **loopMIDI**
-- Download and install **loopMIDI** from [https://www.tobias-erichsen.de/software/loopmidi.html](https://www.tobias-erichsen.de/software/loopmidi.html)
+- Install **loopMIDI** from loopMIDISetup.exe or [https://www.tobias-erichsen.de/software/loopmidi.html](https://www.tobias-erichsen.de/software/loopmidi.html)
 - Open it and create a new port named **`mvave_midi`** by clicking the **`+`** button.
 
+![alt text](image-1.png)
+
+
+### 2. Install Sinco_Connector (for Bluetooth connectivity)
+- Install `Sinco_Connector.exe`
+- Open **Bt Midi connector** and click on **FootCtrl**
+
+![alt text](image.png)
+
 ---
 
-### 2. Run **mvave_midi.exe**
+### 3. Run **mvave_midi.exe**
 - Launch the `mvave_midi.exe` file (keep it running while using your DAW).
-- When started, the program will ask you to select the input port:
+- When started, the program will ask you to select the **input port**:
   - If you’re using **Bluetooth**, the device will appear as `FootCtrl-bt`
   - If you’re using **USB-C**, it will appear as `USB-Midi`
-- Then, select **`mvave_midi`** as the output port.
+- Then, select **`mvave_midi`** as the **output port**.
 
 ---
 
-### 3. Configure your DAW (example: Ableton Live)
+### 4. Configure your DAW (example: Ableton Live)
 1. Open **Ableton Live**  
 2. Go to **Options → Preferences → Link, Tempo & MIDI**
 3. Under **MIDI Ports**, find **`mvave_midi`**
 4. Enable the following options:
    - **Track**
    - **Remote**
-5. Done! Your pedal can now control tracks, FX, or any parameter that supports MIDI mapping.
+5. Done! Your pedal can now 
+
+![alt text](image-2.png)
 
 ---
 
@@ -57,7 +68,10 @@ mvave_midi/Scripts/activate
 pip install -r requirements.txt
 python mvave_midi.py
 ```
-
+To build an executable 
+```bash
+pyinstaller --onefile --hidden-import=mido.backends.rtmidi --hidden-import=rtmidi --icon="./icon.ico"  mvave_midi.py
+```
 ## TODO
 
 * Add graphical interface
