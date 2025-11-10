@@ -65,29 +65,47 @@ class MidiBridgeApp(ctk.CTk):
         for widget in self.controls_frame.winfo_children():
             widget.destroy()
 
-        for i, control in enumerate(self.control_list):
+        # Creamos 4 filas de controles genéricos (sin depender del número inicial)
+        for i in range(4):
             frame = ctk.CTkFrame(self.controls_frame)
             frame.pack(pady=5, padx=10, fill="x")
 
-            btn = ctk.CTkButton(frame, text=f"CC {control}: OFF", fg_color="gray",
-                                command=lambda c=control: self.on_button_click(c))
+            # Valor inicial CC (editable)
+            var_cc = ctk.StringVar(value=str(20 + i))
+            control_id = f"btn_{i}"  # clave interna (no depende del número CC)
+
+            # Botón principal
+            btn = ctk.CTkButton(frame, text=f"CC {var_cc.get()}: OFF", fg_color="gray",
+                                command=lambda cid=control_id: self.on_button_click(cid))
             btn.pack(side="left", padx=5, pady=5)
-            self.buttons[control] = btn
-            self.toggle_state[control] = False
+            self.buttons[control_id] = btn
+            self.toggle_state[control_id] = False
+            self.control_vars[control_id] = var_cc
+
+            # Detecta cambio en CC y actualiza la etiqueta del botón
+            var_cc.trace_add("write", lambda *_, cid=control_id: self.refresh_button_label(cid))
 
             # Selector de modo
             mode_var = ctk.StringVar(value="toggle")
-            mode_menu = ctk.CTkOptionMenu(frame, values=["toggle", "momentary"],
-                                          variable=mode_var)
+            mode_menu = ctk.CTkOptionMenu(frame, values=["toggle", "momentary"], variable=mode_var)
             mode_menu.pack(side="right", padx=5)
-            self.modes[control] = mode_var
+            self.modes[control_id] = mode_var
 
-            # Campo para editar el número CC
+            # Campo editable de número CC
             ctk.CTkLabel(frame, text="CC#:").pack(side="left", padx=(10, 2))
-            var_cc = ctk.StringVar(value=str(control))
             entry_cc = ctk.CTkEntry(frame, width=50, textvariable=var_cc)
             entry_cc.pack(side="left", padx=5)
-            self.control_vars[control] = var_cc
+
+    def refresh_button_label(self, control_id):
+        """Actualiza el texto del botón cuando cambia el número CC"""
+        btn = self.buttons.get(control_id)
+        if not btn:
+            return
+        cc_number = self.control_vars[control_id].get()
+        state = self.toggle_state.get(control_id, False)
+        btn.configure(text=f"CC {cc_number}: {'ON' if state else 'OFF'}")
+
+
 
     # ---------------- MIDI ----------------
     def toggle_connection(self):
@@ -148,16 +166,16 @@ class MidiBridgeApp(ctk.CTk):
             self.output_port.send(msg)
             self.log(f"OUT CC{control} val={value}")
 
-    def update_button_ui(self, control, state):
-        btn = self.buttons.get(control)
+    def update_button_ui(self, control_id, state):
+        """Actualiza color y texto del botón"""
+        btn = self.buttons.get(control_id)
         if not btn:
             return
-        if state:
-            btn.configure(text=f"CC {control}: ON", fg_color="green")
-            
-        else:
-            btn.configure(text=f"CC {control}: OFF", fg_color="gray")
-
+        cc_number = self.control_vars[control_id].get()
+        color = "green" if state else "gray"
+        text = f"CC {cc_number}: {'ON' if state else 'OFF'}"
+        btn.configure(text=text, fg_color=color)
+    
     def on_button_click(self, control):
         try:
             new_cc = int(self.control_vars[control].get())
