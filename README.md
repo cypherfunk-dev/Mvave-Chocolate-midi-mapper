@@ -1,4 +1,4 @@
-# Mvave Chocolate MIDI Bridge
+# Bluetooth MIDI Bridge
 
 This small utility converts messages from the **Mvave Chocolate** (or any other Bluetooth/USB MIDI controller) into usable events for your DAW.  
 It allows you to map pedal switches to control tracks, effects, or any MIDI-mappable parameter with greater flexibility.
@@ -8,14 +8,14 @@ It allows you to map pedal switches to control tracks, effects, or any MIDI-mapp
 ## 🚀 Installation & Setup
 
 ### 1. Install **loopMIDI**
-- Install **loopMIDI** from `loopMIDISetup.exe` or [https://www.tobias-erichsen.de/software/loopmidi.html](https://www.tobias-erichsen.de/software/loopmidi.html)
+- Install **loopMIDI** from `./external executables/loopMIDISetup.exe` or [https://www.tobias-erichsen.de/software/loopmidi.html](https://www.tobias-erichsen.de/software/loopmidi.html)
 - Open it and create a new port named **`mvave_midi`** by clicking the **`+`** button.
 
 ![alt text](assets/image-1.png)
 
 
 ### 2. Install Sinco_Connector (for Bluetooth connectivity)
-- Install `Sinco_Connector.exe`
+- Install `./external executables/Sinco_Connector.exe`
 - Open **Bt Midi connector** and click on **FootCtrl**
 
 ![alt text](assets/image.png)
@@ -23,7 +23,7 @@ It allows you to map pedal switches to control tracks, effects, or any MIDI-mapp
 ---
 
 ### 3. Run **mvave_midi.exe**
-- Launch the `mvave_midi.exe` file (keep it running while using your DAW).
+- Launch the `./BluetoothMIDIBridge.exe` file (keep it running while using your DAW).
 - When started, the program will ask you to select the **input port**:
   - If you’re using **Bluetooth**, the device will appear as `FootCtrl-bt`
   - If you’re using **USB-C**, it will appear as `USB-Midi`
@@ -67,16 +67,12 @@ Also, CubeSuite (official software) is a little bit unstable.
 
 Example setup on Windows:
 ```bash
-mvave_midi/Scripts/activate
+python -m venv .env
+.env/Scripts/activate
 pip install -r requirements.txt
-python mvave_midi.py
+python -m main
 ```
 To build an executable 
 ```bash
-pyinstaller --onefile --hidden-import=mido.backends.rtmidi --hidden-import=rtmidi --icon="assets/icon.ico"  mvave_midi.py
+pyinstaller --onefile --hidden-import=mido.backends.rtmidi --hidden-import=rtmidi --icon="assets/icon.ico"  BluetoothMIDIBridge.py
 ```
-## TODO
-
-* Add graphical interface
-* Control selector
-* Better exception handling
