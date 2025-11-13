@@ -5,17 +5,17 @@ It allows you to map pedal switches to control tracks, effects, or any MIDI-mapp
 
 ---
 
-## 🚀 Installation & Setup
+## Installation & Setup
 
 ### 1. Install **loopMIDI**
-- Install **loopMIDI** from `./external executables/loopMIDISetup.exe` or [https://www.tobias-erichsen.de/software/loopmidi.html](https://www.tobias-erichsen.de/software/loopmidi.html)
+- Install **loopMIDI** from `external executables/loopMIDISetup.exe` or [https://www.tobias-erichsen.de/software/loopmidi.html](https://www.tobias-erichsen.de/software/loopmidi.html)
 - Open it and create a new port named **`mvave_midi`** by clicking the **`+`** button.
 
 ![alt text](assets/image-1.png)
 
 
 ### 2. Install Sinco_Connector (for Bluetooth connectivity)
-- Install `./external executables/Sinco_Connector.exe`
+- Install `external executables/Sinco_Connector.exe`
 - Open **Bt Midi connector** and click on **FootCtrl**
 
 ![alt text](assets/image.png)
@@ -23,7 +23,7 @@ It allows you to map pedal switches to control tracks, effects, or any MIDI-mapp
 ---
 
 ### 3. Run **mvave_midi.exe**
-- Launch the `./BluetoothMIDIBridge.exe` file (keep it running while using your DAW).
+- Launch the `BluetoothMIDIBridge.exe` file (keep it running while using your DAW).
 - When started, the program will ask you to select the **input port**:
   - If you’re using **Bluetooth**, the device will appear as `FootCtrl-bt`
   - If you’re using **USB-C**, it will appear as `USB-Midi`
@@ -38,27 +38,26 @@ It allows you to map pedal switches to control tracks, effects, or any MIDI-mapp
 4. Enable the following options:
    - **Track**
    - **Remote**
-5. Done! Your pedal can now 
+5. Done! Your pedal can now receive MIDI messages.
 
 ![alt text](assets/image-2.png)
 
 ---
 
-## 💡 Tips
+## Tips
 - Keep **loopMIDI** and **mvave_midi.exe** open before launching your DAW.  
 - If you rename the port in loopMIDI, make sure to select the same name when running the program.  
 - You can use any other pedal or controller that sends standard MIDI messages.
 
 ---
 
-## 🧠 Author
+## Author
 Experimental project developed to bridge Bluetooth MIDI controllers with DAWs using Python and Mido.  
 Inspired by the need to **control Ableton with your feet without spending hundreds on dedicated hardware**.
-Also, CubeSuite (official software) is a little bit unstable.
-
+Additionally, CubeSuite (the official software) is somewhat unstable due to the lack of a preset-saving feature.
 ---
 
-## ⚙️ Dependencies (if running the Python source)
+## Dependencies (if running the Python source)
 - Python 3.10+
 - `mido`
 - `python-rtmidi`
@@ -74,5 +73,5 @@ python -m main
 ```
 To build an executable 
 ```bash
-pyinstaller --onefile --hidden-import=mido.backends.rtmidi --hidden-import=rtmidi --icon="assets/icon.ico"  BluetoothMIDIBridge.py
+pyinstaller --noconsole --onefile --hidden-import=mido.backends.rtmidi --hidden-import=rtmidi --icon="assets/icon.ico"  main.py
 ```

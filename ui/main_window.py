@@ -1,5 +1,5 @@
 import customtkinter as ctk
-import os
+import os, sys
 import json
 from tkinter import filedialog
 
@@ -14,12 +14,24 @@ from models.configuration import AppConfiguration
 from models.switch import MidiSwitch
 from config.settings import AppSettings
 
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+
+
 
 class MidiBridgeApp(ctk.CTk):
     def __init__(self):
         super().__init__()
-        self.title("Mvave MIDI Bridge")
+        self.title("Bluetooth MIDI Bridge")
         self.geometry("800x750")
+        self.iconbitmap(resource_path("assets/icon.ico"))  # importante: ruta válida al ícono
+
         
         # Inicializar componentes
         self.localization = Localization()

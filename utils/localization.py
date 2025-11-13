@@ -15,7 +15,7 @@ class Localization:
             # Cargar idiomas por defecto si el archivo no existe
             self.languages = {
                 "es": {
-                    "app_title": "Mvave MIDI Bridge",
+                    "app_title": "Bluetooth MIDI Bridge",
                     "input_midi": "Entrada MIDI:",
                     "output_midi": "Salida MIDI:",
                     "connect": "Conectar",
